@@ -53,6 +53,25 @@ jobs:
           - tag: day10-final
             context: ./tasks/day10-final
             file: ./tasks/day10-final/Dockerfile
+          - tag: day11-entrypoint-cmd
+            context: ./tasks/day11-entrypoint-cmd
+            file: ./tasks/day11-entrypoint-cmd/Dockerfile
+
+          - tag: day12-build-arg
+            context: ./tasks/day12-build-arg
+            file: ./tasks/day12-build-arg/Dockerfile
+
+          - tag: day13-image-layer-history
+            context: ./tasks/day13-image-layer-history
+            file: ./tasks/day13-image-layer-history/Dockerfile
+
+          - tag: day14-volume-mount
+            context: ./tasks/day14-volume-mount
+            file: ./tasks/day14-volume-mount/Dockerfile
+
+          - tag: day15-network-sidecar
+            context: ./tasks/day15-network-sidecar
+            file: ./tasks/day15-network-sidecar/Dockerfile
 
     steps:
       - name: Checkout source code
