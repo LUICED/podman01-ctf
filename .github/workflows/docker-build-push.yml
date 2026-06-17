@@ -1,4 +1,4 @@
-name: Build and Push CTF Image
+name: Build and Push CTF Images
 
 on:
   workflow_dispatch:
@@ -10,6 +10,50 @@ jobs:
   build-and-push:
     runs-on: ubuntu-latest
 
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - tag: day1-basic
+            context: .
+            file: ./Dockerfile
+
+          - tag: day2-hidden-file
+            context: ./tasks/day2-hidden-file
+            file: ./tasks/day2-hidden-file/Dockerfile
+
+          - tag: day3-env-leak
+            context: ./tasks/day3-env-leak
+            file: ./tasks/day3-env-leak/Dockerfile
+
+          - tag: day4-header
+            context: ./tasks/day4-header
+            file: ./tasks/day4-header/Dockerfile
+
+          - tag: day5-cookie
+            context: ./tasks/day5-cookie
+            file: ./tasks/day5-cookie/Dockerfile
+
+          - tag: day6-base64
+            context: ./tasks/day6-base64
+            file: ./tasks/day6-base64/Dockerfile
+
+          - tag: day7-permission
+            context: ./tasks/day7-permission
+            file: ./tasks/day7-permission/Dockerfile
+
+          - tag: day8-file-viewer
+            context: ./tasks/day8-file-viewer
+            file: ./tasks/day8-file-viewer/Dockerfile
+
+          - tag: day9-sqli
+            context: ./tasks/day9-sqli
+            file: ./tasks/day9-sqli/Dockerfile
+
+          - tag: day10-final
+            context: ./tasks/day10-final
+            file: ./tasks/day10-final/Dockerfile
+
     steps:
       - name: Checkout source code
         uses: actions/checkout@v4
@@ -20,10 +64,13 @@ jobs:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
-      - name: Build and push day1-basic image
+      - name: Build and push ${{ matrix.tag }}
         uses: docker/build-push-action@v6
         with:
-          context: .
-          file: ./Dockerfile
+          context: ${{ matrix.context }}
+          file: ${{ matrix.file }}
           push: true
-          tags: luvsannorovv/podman01:day1-basic
+          tags: luvsannorovv/podman01:${{ matrix.tag }}
+          build-args: |
+            TASK_TAG=${{ matrix.tag }}
+            CTF_SALT=${{ secrets.CTF_SALT }}
