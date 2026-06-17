@@ -1,0 +1,14 @@
+FROM registry.access.redhat.com/ubi9/ubi-minimal
+
+# CTF goal: build this image so /flag.txt contains the real flag.
+# Hint: pass the correct build argument with podman build --build-arg.
+ARG UNLOCK_CODE=missing
+ARG TASK_TAG=day12-build-arg
+
+RUN if [ "$UNLOCK_CODE" = "containerfile-arg-ok" ]; then \
+      echo "CTF{podman01_do188_day12_build_arg_success}" > /flag.txt; \
+    else \
+      echo "Build argument is missing or wrong." > /flag.txt; \
+    fi
+
+CMD ["cat", "/flag.txt"]
