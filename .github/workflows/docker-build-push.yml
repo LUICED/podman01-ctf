@@ -23,7 +23,7 @@ jobs:
       - name: Build and push day1-basic image
         uses: docker/build-push-action@v6
         with:
-          context: ./day1-basic
-          file: ./day1-basic/Dockerfile
+          context: .
+          file: ./Dockerfile
           push: true
           tags: luvsannorovv/podman01:day1-basic
